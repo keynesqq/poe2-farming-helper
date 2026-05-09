@@ -1,0 +1,50 @@
+{
+  "name": "poe2-map-guide",
+  "version": "1.0.0",
+  "description": "POE2 Map Guide Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable",
+    "dist": "electron-builder --win portable --publish=never"
+  },
+  "keywords": [
+    "POE2",
+    "Map",
+    "Guide"
+  ],
+  "author": "parkerwt",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "iconv-lite": "^0.7.2"
+  },
+  "build": {
+    "appId": "com.parkerwt.poe2mapguide",
+    "productName": "POE2 Map Guide",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "float.html",
+      "app.js",
+      "styles.css",
+      "data.json",
+      "preload.js"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    }
+  }
+}

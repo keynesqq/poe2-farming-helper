@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>POE2 浮窗</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #1a1814;
+      }
+      body.collapsed {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 24, 20, 0.98) 0%,
+          rgba(45, 42, 31, 0.98) 100%
+        );
+      }
+      .float-window {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 24, 20, 0.98) 0%,
+          rgba(45, 42, 31, 0.98) 100%
+        );
+        border: 1px solid #5f5136;
+        border-radius: 12px;
+        padding: 4px 12px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .float-window.collapsed {
+        border: none !important;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+      .float-window.collapsed .float-header {
+        margin: 0 !important;
+        padding: 8px 12px;
+        border: none !important;
+        min-height: 0;
+        height: auto;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 24, 20, 0.98) 0%,
+          rgba(45, 42, 31, 0.98) 100%
+        );
+        border-radius: 0 !important;
+        align-items: center;
+        box-sizing: border-box;
+      }
+      .float-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+        -webkit-app-region: drag;
+        flex-wrap: nowrap;
+        min-height: 32px;
+      }
+      .float-controls {
+        display: flex;
+        gap: 4px;
+        -webkit-app-region: no-drag;
+      }
+      .float-btn {
+        width: 24px;
+        height: 24px;
+        border: none;
+        background: transparent;
+        color: #b8a88a;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+      .float-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #f0e6d2;
+      }
+      .float-btn.active {
+        background: rgba(193, 144, 44, 0.3);
+        color: #f0e6d2;
+      }
+      .float-btn.close:hover {
+        background: #e81123;
+        color: white;
+      }
+      .float-btn.font-control {
+        font-size: 11px;
+        font-weight: bold;
+      }
+      .float-btn.collapse-btn {
+        font-size: 12px;
+        margin-right: 4px;
+        -webkit-app-region: no-drag;
+      }
+      .float-map-icon {
+        font-size: 18px;
+      }
+      .location-pin {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 6px;
+        vertical-align: middle;
+        line-height: 1;
+      }
+      .location-pin::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #ff4444;
+        border-radius: 50%;
+        border: 2px solid #cc0000;
+        box-shadow: 0 0 4px rgba(255, 68, 68, 0.6);
+      }
+      .location-pin::after {
+        content: "";
+        width: 2px;
+        height: 8px;
+        background: #ff4444;
+        margin-top: -1px;
+      }
+      .float-map-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #f2e2be;
+        flex: 1;
+      }
+      .float-level {
+        font-size: 12px;
+        color: #b8a88a;
+        background: rgba(95, 81, 54, 0.5);
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+      .float-strategy {
+        font-size: 12px;
+        color: #8fbc8f;
+        line-height: 1.3;
+        margin-bottom: 4px;
+        padding: 4px 8px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        border-left: 2px solid #4a7c59;
+      }
+      .float-tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 4px;
+        flex: 1;
+      }
+      .float-task-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        background: rgba(95, 81, 54, 0.2);
+        border: 1px solid rgba(95, 81, 54, 0.4);
+        border-radius: 4px;
+        font-size: 12px;
+        -webkit-app-region: no-drag;
+      }
+      .float-task-item input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        accent-color: #c1902c;
+        cursor: pointer;
+      }
+      .float-task-item.completed {
+        opacity: 0.5;
+        text-decoration: line-through;
+      }
+      .float-task-badge {
+        font-size: 10px;
+        padding: 1px 4px;
+        border-radius: 3px;
+        margin-left: 4px;
+        display: inline-block;
+        background: rgba(139, 69, 19, 0.25);
+        color: #d4a574;
+        border: 1px solid rgba(139, 69, 19, 0.4);
+      }
+      .float-task-badge.optional {
+        background: rgba(70, 130, 180, 0.25);
+        color: #87ceeb;
+        border: 1px solid rgba(70, 130, 180, 0.4);
+      }
+      .float-task-badge.elite {
+        background: rgba(138, 43, 226, 0.35);
+        color: #da70d6;
+        border: 1px solid rgba(218, 112, 214, 0.5);
+        font-weight: 600;
+        text-shadow: 0 0 4px rgba(218, 112, 214, 0.4);
+      }
+      .float-task-badge.main-quest {
+        background: rgba(220, 20, 60, 0.35);
+        color: #ff6b6b;
+        border: 1px solid rgba(220, 20, 60, 0.5);
+        font-weight: 600;
+        text-shadow: 0 0 4px rgba(220, 20, 60, 0.4);
+      }
+      .float-task-badge.must {
+        background: rgba(255, 99, 71, 0.35);
+        color: #ff6347;
+        border: 1px solid rgba(255, 99, 71, 0.5);
+        font-weight: 600;
+        text-shadow: 0 0 4px rgba(255, 99, 71, 0.4);
+      }
+      .float-task-badge.event {
+        background: rgba(255, 140, 0, 0.35);
+        color: #ff8c00;
+        border: 1px solid rgba(255, 140, 0, 0.5);
+        font-weight: 600;
+        text-shadow: 0 0 4px rgba(255, 140, 0, 0.4);
+      }
+      .float-task-rewards {
+        display: flex;
+        gap: 2px;
+        margin-left: auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .float-task-reward {
+        font-size: 10px;
+        padding: 1px 4px;
+        border-radius: 3px;
+        background: rgba(255, 215, 0, 0.2);
+        color: #ffd700;
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        white-space: nowrap;
+      }
+      .float-nav {
+        display: flex;
+        justify-content: flex-end;
+        gap: 4px;
+        margin-left: auto;
+        -webkit-app-region: no-drag;
+      }
+      .float-nav button {
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        background: rgba(95, 81, 54, 0.3);
+        border: 1px solid #5f5136;
+        color: #d4c5a0;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .float-nav button:hover {
+        background: rgba(95, 81, 54, 0.5);
+      }
+      .no-data {
+        text-align: center;
+        color: #8a8a8a;
+        padding: 40px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="float-window" id="floatWindow">
+      <div class="float-header">
+        <span class="float-map-icon">🗺️</span>
+        <span class="float-map-name" id="floatMapName">等待数据...</span>
+        <button
+          class="float-btn collapse-btn"
+          id="collapseBtn"
+          title="折叠/展开"
+        >
+          ▼
+        </button>
+        <span class="float-level" id="floatLevel">--</span>
+        <div class="float-nav">
+          <button id="prevBtn">◀</button>
+          <button id="nextBtn">▶</button>
+        </div>
+        <div class="float-controls">
+          <button
+            class="float-btn font-control"
+            id="fontSizeDecrease"
+            title="减小字体"
+          >
+            A-
+          </button>
+          <button
+            class="float-btn font-control"
+            id="fontSizeIncrease"
+            title="增大字体"
+          >
+            A+
+          </button>
+          <button
+            class="float-btn font-control"
+            id="fontColorBtn"
+            title="字体颜色"
+          >
+            🎨
+          </button>
+          <button class="float-btn pin-btn" id="pinBtn" title="置顶">📌</button>
+          <button class="float-btn close" id="closeBtn" title="关闭">✕</button>
+        </div>
+      </div>
+      <div class="float-strategy" id="floatStrategy">请从主窗口选择地图</div>
+      <div class="float-tasks" id="floatTasks"></div>
+    </div>
+
+    <script>
+      let currentData = null;
+      let checkedState = {}; // 仅缓存当前显示地图的勾选状态，不持久化
+      let isHovering = false;
+      let allTasks = [];
+
+      // 更新浮窗显示数据（由主窗口推送）
+      function updateData(data) {
+        currentData = data;
+        const prefix = data.isAutoDetected ? "📍 " : "";
+        document.getElementById("floatMapName").textContent =
+          prefix + (data.mapName || "未知地图");
+        document.getElementById("floatLevel").textContent =
+          `Lv.${data.level || "?"}`;
+        document.getElementById("floatStrategy").textContent =
+          data.mapStrategy || "暂无攻略";
+        // 将主窗口附带的勾选状态同步到本地
+        data.tasks.forEach((t) => {
+          checkedState[t.id] = t.checked;
+        });
+        renderTasks(data.tasks);
+        setTimeout(adjustWindowHeight, 50);
+      }
+
+      function renderTasks(tasks, showAll = false) {
+        const container = document.getElementById("floatTasks");
+        container.innerHTML = "";
+
+        if (!tasks || tasks.length === 0) {
+          container.innerHTML = '<div class="no-data">暂无任务</div>';
+          return;
+        }
+
+        allTasks = tasks;
+        const tasksToShow = showAll
+          ? tasks
+          : tasks.filter((t) => !checkedState[t.id]);
+
+        tasksToShow.forEach((task) => {
+          const el = document.createElement("div");
+          el.className = "float-task-item";
+          const isChecked = checkedState[task.id] || false;
+          if (isChecked) el.classList.add("completed");
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = isChecked;
+          checkbox.addEventListener("change", () => {
+            checkedState[task.id] = checkbox.checked;
+            el.classList.toggle("completed", checkbox.checked);
+            // 同步到主窗口
+            window.electronAPI?.syncTaskCheck?.(task.id, checkbox.checked);
+            // 检查本地是否全部完成
+            checkAllCompleted(tasks);
+          });
+
+          const label = document.createElement("span");
+          label.textContent = task.description;
+
+          el.appendChild(checkbox);
+          el.appendChild(label);
+
+          // 等级标签
+          (task.tags || []).filter(Boolean).forEach((tag) => {
+            const badge = document.createElement("span");
+            badge.className = "float-task-badge";
+            badge.textContent = tag;
+            if (tag === "必做") {
+              badge.classList.add("must");
+            } else if (tag === "可选") {
+              badge.classList.add("optional");
+            } else if (tag === "主线" || tag === "★★★") {
+              badge.classList.add("main-quest");
+            } else if (tag === "精英") {
+              badge.classList.add("elite");
+            } else if (tag === "事件") {
+              badge.classList.add("event");
+            }
+            label.appendChild(badge);
+          });
+
+          // 奖励标签
+          const rewardTags = (task.rewardTags || []).filter(Boolean);
+          if (rewardTags.length > 0) {
+            const rewardContainer = document.createElement("div");
+            rewardContainer.className = "float-task-rewards";
+            rewardTags.forEach((reward) => {
+              const rewardBadge = document.createElement("span");
+              rewardBadge.className = "float-task-reward";
+              rewardBadge.textContent = `🏆 ${reward}`;
+              rewardContainer.appendChild(rewardBadge);
+            });
+            el.appendChild(rewardContainer);
+          }
+
+          container.appendChild(el);
+        });
+      }
+
+      function refreshTasks() {
+        renderTasks(allTasks, isHovering);
+      }
+
+      function checkAllCompleted(tasks) {
+        const allDone = tasks.every((t) => checkedState[t.id]);
+        if (allDone && tasks.length > 0) {
+          setTimeout(() => {
+            if (window.electronAPI?.floatNext) {
+              window.electronAPI.floatNext();
+            }
+          }, 1000);
+        }
+      }
+
+      // 动态调整窗口高度
+      function adjustWindowHeight() {
+        const floatWindowEl = document.getElementById("floatWindow");
+        const containerStyle = window.getComputedStyle(floatWindowEl);
+        let totalHeight = 0;
+        const children = floatWindowEl.children;
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i];
+          const style = window.getComputedStyle(child);
+          if (style.display === "none") continue;
+          const height = child.offsetHeight;
+          const marginTop = parseInt(style.marginTop) || 0;
+          const marginBottom = parseInt(style.marginBottom) || 0;
+          totalHeight += height + marginTop + marginBottom;
+        }
+        const paddingTop = parseInt(containerStyle.paddingTop) || 0;
+        const paddingBottom = parseInt(containerStyle.paddingBottom) || 0;
+        const newHeight = totalHeight + paddingTop + paddingBottom;
+        if (window.electronAPI?.setFloatHeight) {
+          window.electronAPI.setFloatHeight(newHeight);
+        }
+      }
+
+      // 监听主窗口数据更新
+      if (window.electronAPI) {
+        window.electronAPI.onFloatDataUpdate?.((data) => {
+          console.log("收到数据更新:", data?.mapName);
+          updateData(data);
+        });
+
+        // 监听主窗口任务勾选同步
+        window.electronAPI.onSyncTaskCheck?.(({ taskId, checked }) => {
+          console.log("收到主窗口同步:", taskId, checked);
+          if (taskId === "reset_all") {
+            checkedState = {};
+            refreshTasks();
+            setTimeout(adjustWindowHeight, 50);
+          } else {
+            if (checked) {
+              checkedState[taskId] = true;
+            } else {
+              delete checkedState[taskId];
+            }
+            refreshTasks();
+            setTimeout(adjustWindowHeight, 50);
+          }
+        });
+
+        // 不再监听地图检测事件（由主窗口统一处理）
+      }
+
+      // 鼠标悬停事件
+      const floatWindow = document.getElementById("floatWindow");
+      floatWindow.addEventListener("mouseenter", () => {
+        if (!isHovering) {
+          isHovering = true;
+          refreshTasks();
+          setTimeout(adjustWindowHeight, 50);
+        }
+      });
+      floatWindow.addEventListener("mouseleave", () => {
+        if (isHovering) {
+          isHovering = false;
+          refreshTasks();
+          setTimeout(adjustWindowHeight, 50);
+        }
+      });
+
+      // 导航按钮
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        window.electronAPI?.floatPrev?.();
+      });
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        window.electronAPI?.floatNext?.();
+      });
+
+      // 置顶按钮
+      let isPinned = false;
+      const pinBtn = document.getElementById("pinBtn");
+      window.electronAPI?.getFloatAlwaysOnTop?.().then((alwaysOnTop) => {
+        isPinned = alwaysOnTop;
+        pinBtn.classList.toggle("active", isPinned);
+      });
+      pinBtn.addEventListener("click", () => {
+        isPinned = !isPinned;
+        pinBtn.classList.toggle("active", isPinned);
+        window.electronAPI?.setFloatAlwaysOnTop?.(isPinned);
+      });
+
+      // 字体调节（保持不变）
+      let fontSize = 12;
+      const fontSizeStep = 2;
+      const minFontSize = 8;
+      const maxFontSize = 24;
+      try {
+        const savedFontSize = localStorage.getItem("poe2_float_font_size");
+        if (savedFontSize) {
+          fontSize = parseInt(savedFontSize, 10);
+          fontSize = Math.max(minFontSize, Math.min(maxFontSize, fontSize));
+        }
+        const savedFontColor = localStorage.getItem("poe2_float_font_color");
+        if (savedFontColor) {
+          document.getElementById("floatStrategy").style.color = savedFontColor;
+        }
+      } catch (e) {}
+
+      function updateFontSize() {
+        const strategyEl = document.getElementById("floatStrategy");
+        strategyEl.style.fontSize = fontSize + "px";
+        try {
+          localStorage.setItem("poe2_float_font_size", fontSize.toString());
+        } catch (e) {}
+        setTimeout(adjustWindowHeight, 50);
+      }
+
+      document
+        .getElementById("fontSizeDecrease")
+        .addEventListener("click", () => {
+          if (fontSize > minFontSize) {
+            fontSize -= fontSizeStep;
+            updateFontSize();
+          }
+        });
+      document
+        .getElementById("fontSizeIncrease")
+        .addEventListener("click", () => {
+          if (fontSize < maxFontSize) {
+            fontSize += fontSizeStep;
+            updateFontSize();
+          }
+        });
+
+      const fontColors = [
+        "#f0e6d2",
+        "#ffffff",
+        "#ffeb3b",
+        "#4caf50",
+        "#2196f3",
+        "#ff9800",
+        "#e91e63",
+        "#9c27b0",
+      ];
+      let currentColorIndex = 0;
+      document.getElementById("fontColorBtn").addEventListener("click", () => {
+        currentColorIndex = (currentColorIndex + 1) % fontColors.length;
+        const newColor = fontColors[currentColorIndex];
+        document.getElementById("floatStrategy").style.color = newColor;
+        try {
+          localStorage.setItem("poe2_float_font_color", newColor);
+        } catch (e) {}
+      });
+      updateFontSize();
+
+      // 关闭按钮
+      document.getElementById("closeBtn").addEventListener("click", () => {
+        window.electronAPI?.closeFloatWindow?.();
+      });
+
+      // 折叠/展开按钮（重构为CSS隐藏方式）
+      let isCollapsed = false;
+      const collapseBtn = document.getElementById("collapseBtn");
+      const floatStrategy = document.getElementById("floatStrategy");
+      const floatTasks = document.getElementById("floatTasks");
+      const floatWindowEl = document.getElementById("floatWindow");
+
+      collapseBtn.addEventListener("click", () => {
+        isCollapsed = !isCollapsed;
+        collapseBtn.textContent = isCollapsed ? "▲" : "▼";
+
+        // 使用CSS类来控制显示/隐藏，而不是移除DOM元素
+        if (isCollapsed) {
+          floatWindowEl.classList.add("collapsed");
+          document.body.classList.add("collapsed");
+          floatStrategy.style.display = "none";
+          floatTasks.style.display = "none";
+        } else {
+          floatWindowEl.classList.remove("collapsed");
+          document.body.classList.remove("collapsed");
+          floatStrategy.style.display = "";
+          floatTasks.style.display = "";
+          // 确保任务列表在展开时正确显示
+          if (currentData && currentData.tasks) {
+            renderTasks(currentData.tasks, isHovering);
+          }
+        }
+
+        if (isCollapsed) {
+          const headerHeight =
+            floatWindowEl.querySelector(".float-header").offsetHeight;
+          if (window.electronAPI?.setFloatHeight) {
+            window.electronAPI.setFloatHeight(headerHeight);
+          }
+        } else {
+          requestAnimationFrame(() => {
+            setTimeout(adjustWindowHeight, 100);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

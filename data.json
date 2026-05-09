@@ -1,0 +1,916 @@
+[
+  {
+    "chapter": "第一章：皆伐之影",
+    "chapter_strategy": "目标时间≈60分钟。本章核心目标是追踪并击败吉恩诺伯爵（狼王）。核心路线：河岸 → 皆伐营地 → 皆伐 → 泥沼陋居（可选） → 葛瑞尔林 → 赤谷 → 阴森网道 → 永恒园林（及两座陵墓） → 盘根魔域 → 猎场 → 弗雷索恩 → 奥格姆农地 → 奥格姆村 → 宅第壁垒 → 奥格姆宅第。重点：务必完成贝伊拉（抗性）、鸦铃（天赋）、乌娜鲁特琴（天赋）和存活仪式（生命）。",
+    "chapter_boss": "吉恩诺伯爵（狼王）。存活仪式：庄园大厅点火放祭品，击杀后获+20最大生命，建议必做（影响眩晕门槛）。一阶段：主要持刀挥砍，蓄力突进后接大范围横扫；狼形态从天而降动作明显，提前翻滚躲避。二阶段：攻击欲望更强，身下出现冰圈向外扩散成冰环，观察冰点站位；朝前方扇形喷冰霜，翻滚拉开即可；进雾召小狼后沿圈外侧跑，每2下攻击接1次翻滚躲避偷袭。核心技巧：狼王释放天降冰柱时，使用盾牌格挡可完全挡掉伤害并打断技能。狂暴阶段：大范围召唤从天而降的冰锥，此时只翻滚不贪刀，等召唤结束再输出。尾王为冰属性攻击，冰抗建议堆到40%以上。",
+    "areas": [
+      {
+        "name_cn": "污流河畔",
+        "name_tw": "河岸",
+        "name_en": "The Riverbank",
+        "level": 1,
+        "entries": [{ "name": "浮肿米勒", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "教学关卡。与伤者对话拿武器，开箱获取技能石（G键装备）。战斗技巧：先普攻再切散弹枪可提升伤害。沿溪流上行击败浮肿米勒，与守卫对话进入主城。锁定起始技能位。"
+      },
+      {
+        "name_cn": "克里费尔营地",
+        "name_tw": "皆伐營地",
+        "name_en": "Clearfell Camp",
+        "level": 1,
+        "entries": [{ "name": "主城", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "主城枢纽。找胡德领初始技能宝石，解锁交易与仓库。伦利(武)、乌娜(法/药)、费恩(赌博)。直接前往皆伐。"
+      },
+      {
+        "name_cn": "克里费尔",
+        "name_tw": "皆伐",
+        "name_en": "Clearfell",
+        "level": 2,
+        "entries": [
+          {
+            "name": "腐败兽群·贝伊拉",
+            "priority": "可选",
+            "rewards": ["+10%冰冷抗性"]
+          },
+          { "name": "神秘营区", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "①营地篝火旁大箱拿技能石；②击杀贝伊拉（唱歌女巫）获+10%冰冷抗性，必打；③找泥穴入口和传送点；④找葛瑞尔林入口。速通可跳过冰女。"
+      },
+      {
+        "name_cn": "泥穴",
+        "name_tw": "泥沼陋居",
+        "name_en": "Mire Trench",
+        "level": 3,
+        "entries": [{ "name": "吞噬兽", "priority": "可选", "rewards": [] }],
+        "exploration_notes": "洞穴尽头击杀吞噬兽，回城领前期核心辅助宝石。对爆炸弹提升巨大，建议必打。"
+      },
+      {
+        "name_cn": "韧木森林",
+        "name_tw": "葛瑞爾林",
+        "name_en": "Graven Forest",
+        "level": 4,
+        "entries": [
+          {
+            "name": "荆棘惧怪",
+            "priority": "可选",
+            "rewards": ["2级技能宝石"]
+          },
+          { "name": "摄魂之树", "priority": "事件", "rewards": [] },
+          { "name": "女巫小屋", "priority": "事件", "rewards": [] },
+          {
+            "name": "忘却女巫·阿瑞涅",
+            "priority": "可选",
+            "rewards": ["1级辅助宝石"]
+          }
+        ],
+        "exploration_notes": "大型方图。进图直走找女巫小屋，忘却女巫掉辅助宝石。荆棘惧怪掉2级技能宝石。周边分布传送点和缠缚阴林入口。找到赤谷入口打3方尖塔战钢铁BOSS。"
+      },
+      {
+        "name_cn": "红谷",
+        "name_tw": "赤谷",
+        "name_en": "Crimson Valley",
+        "level": 5,
+        "entries": [{ "name": "铁锈之王", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "三仪式碑呈三角形分布。找到第一个后按此逻辑找另外两个。第三个碑出Boss铁锈之王，注意翻滚躲避，招小怪时用尸体召唤蝎子群殴。回城交任务后传送到葛瑞尔林继续主线。"
+      },
+      {
+        "name_cn": "阴森网道",
+        "name_tw": "纏縛陰林",
+        "name_en": "Tangled Woods",
+        "level": 6,
+        "entries": [
+          {
+            "name": "腐败的德鲁伊·厄维格",
+            "priority": "可选",
+            "rewards": ["1级技能宝石"]
+          }
+        ],
+        "exploration_notes": "过渡区域，找Boss和出口，通向不朽帝国之墓。Boss掉1级技能宝石。"
+      },
+      {
+        "name_cn": "永恒园林",
+        "name_tw": "不朽帝國之墓",
+        "name_en": "Tomb of the Immortal Empire",
+        "level": 7,
+        "entries": [
+          { "name": "无尽悲歌的拉克朗", "priority": "主线", "rewards": [] },
+          { "name": "古老遗迹", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "双地宫解谜中心，需收集两个钥匙碎片。找戒指、男墓、女墓，先进男墓，先打女墓再打男墓。贴脸打拉克朗。"
+      },
+      {
+        "name_cn": "伴侣寝宫",
+        "name_tw": "配偶的墓室",
+        "name_en": "The Consort's Tomb",
+        "level": 8,
+        "entries": [
+          { "name": "政务官配偶·阿席妮雅", "priority": "主线", "rewards": [] },
+          { "name": "争战的宝库", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "位于永恒园林左侧。隔中心坑远程打阿席妮雅。有辅助宝石箱子，贴脸打精英怪。"
+      },
+      {
+        "name_cn": "执政官的地宫",
+        "name_tw": "政務官陵墓",
+        "name_en": "The Magistrate's Tomb",
+        "level": 8,
+        "entries": [
+          { "name": "永恒政务官·德雷文", "priority": "主线", "rewards": [] },
+          { "name": "被隐藏的钱财", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "位于永恒园林右侧。利用Boss房中心坑卡位远程输出。有棺材掉落大量金币，必捡。"
+      },
+      {
+        "name_cn": "盘根魔域",
+        "name_tw": "盤根魔域",
+        "name_en": "Rootbound Domain",
+        "level": 9,
+        "entries": [
+          { "name": "腐败的德鲁伊", "priority": "可选", "rewards": [] },
+          { "name": "黑衣幽魂的请求", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "可选区域，位于陵墓群之后。击败腐败的德鲁伊可获得经验与装备，完成黑衣幽魂事件可获取额外奖励。"
+      },
+      {
+        "name_cn": "猎场",
+        "name_tw": "獵場",
+        "name_en": "Hunting Grounds",
+        "level": 10,
+        "entries": [
+          { "name": "鸦铃", "priority": "可选", "rewards": ["2天赋点"] },
+          { "name": "祭祀神坛", "priority": "事件", "rewards": [] },
+          { "name": "树灵祭祀", "priority": "事件", "rewards": ["技能宝石"] }
+        ],
+        "exploration_notes": "极高危险度区域，高额天赋点奖励建议必做。找奥格姆农地入口、鸦铃Boss（+2天赋点）、弗雷索恩入口。树灵祭祀掉技能宝石。"
+      },
+      {
+        "name_cn": "茂棘森林",
+        "name_tw": "弗雷索恩",
+        "name_en": "Freethorn",
+        "level": 11,
+        "entries": [
+          { "name": "迷雾之王", "priority": "可选", "rewards": ["+30精魂"] }
+        ],
+        "exploration_notes": "奖励图。点亮并守护3个小祭坛，击杀迷雾之王永久+30精魂上限，解锁持久增益技能位。"
+      },
+      {
+        "name_cn": "欧甘农地",
+        "name_tw": "奧格姆農地",
+        "name_en": "Ogham Farmlands",
+        "level": 12,
+        "entries": [
+          { "name": "乌娜的小屋", "priority": "事件", "rewards": ["2天赋点"] },
+          { "name": "麦田圈", "priority": "事件", "rewards": ["4级技能宝石"] }
+        ],
+        "exploration_notes": "必做！跟着大路走，遇阻则旁绕找下一段路，远离入口方向找鲁特琴（+2天赋点）和奥格姆村入口。麦田圈固定精英掉4级技能石，必拿。"
+      },
+      {
+        "name_cn": "欧甘村庄",
+        "name_tw": "奧格姆村",
+        "name_en": "Ogham Village",
+        "level": 13,
+        "entries": [
+          { "name": "伦利的工作坊", "priority": "事件", "rewards": [] },
+          { "name": "铁匠箱子", "priority": "事件", "rewards": [] },
+          { "name": "刽子手", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "火攻村庄，怪物密度低勿刷怪。找分解工具箱解锁回收台。击杀刽子手，其猛击有秒杀逻辑。"
+      },
+      {
+        "name_cn": "庄园城壁",
+        "name_tw": "宅第壁壘",
+        "name_en": "Manor Ramparts",
+        "level": 14,
+        "entries": [{ "name": "绞刑架", "priority": "事件", "rewards": [] }],
+        "exploration_notes": "线性跑图，怪密集伤害高，适合聚怪刷经验（升到11级以上）。直冲奥格姆宅第大门。"
+      },
+      {
+        "name_cn": "欧甘庄园",
+        "name_tw": "奧格姆宅第",
+        "name_en": "Ogham Manor",
+        "level": 15,
+        "entries": [
+          {
+            "name": "存活仪式·烛光",
+            "priority": "可选",
+            "rewards": ["+20最大生命"]
+          },
+          { "name": "吉恩诺伯爵", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "最终大考。二层大厅完成存活仪式（点火放祭品）获+20最大生命，必做。三层打狼王：一阶段贴墙榴弹弹墙攻击，用盾挡冰柱。转阶段迷雾贴边顺时针跑并清小怪。冰抗建议堆40%+。"
+      }
+    ]
+  },
+  {
+    "chapter": "第二章：瓦斯提里之谜",
+    "chapter_strategy": "目标时间≈70分钟。本章需解开大漠的诅咒。核心路线：瓦斯提里郊区 → 锻造厂/叛徒之路 → 哈拉妮关口 → 骨坑 → 凯斯城 → 失落之城/掩埋神殿 → 泰坦之谷 → 戴斯哈 → 悼念之路 → 戴斯哈尖塔 → 无畏队先锋。重点：完成姐妹对话（闪电抗性）、遗书（天赋）和泰坦奖章（药符强化）。",
+    "chapter_boss": "贾曼拉（无畏队先锋）。精英Boss战，本章重点练级图：经验密度高且掉落9级技能石。在没有神庙的竞速赛环境下，安全刷级的策略是在固定精英怪点反复重置地图补经验至29级再打Boss。贾曼拉需要躲避地面砸击，保持移动输出。",
+    "areas": [
+      {
+        "name_cn": "瓦斯提里外沿",
+        "name_tw": "瓦斯提里郊區",
+        "name_en": "Vastiri Outskirts",
+        "level": 16,
+        "entries": [{ "name": "撕裂者", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "第2章第一个城镇。保护车队，击败沿途半人马巨兽。与NPC互动开启通往沙漠深处的大门。提前预留22级学跃击。"
+      },
+      {
+        "name_cn": "阿杜拉的商队",
+        "name_tw": "阿杜拉車隊",
+        "name_en": "Adul's Akhara",
+        "level": null,
+        "entries": [{ "name": "主城", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "第2幕第2个城镇。"
+      },
+      {
+        "name_cn": "莫丹采石场",
+        "name_tw": "莫頓挖石場",
+        "name_en": "Morton's Quarry",
+        "level": null,
+        "entries": [
+          { "name": "法里登战争秘盒", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "跑图寻找莫顿矿坑入口。"
+      },
+      {
+        "name_cn": "莫丹矿场",
+        "name_tw": "莫頓礦坑",
+        "name_en": "Morton's Pit",
+        "level": null,
+        "entries": [
+          { "name": "恐惧工程师·鲁贾", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "狭窄蜿蜒区域。击败Boss后直接回城，进入叛徒之路。"
+      },
+      {
+        "name_cn": "叛徒小径",
+        "name_tw": "叛徒之路",
+        "name_en": "Traitor's Passage",
+        "level": 19,
+        "entries": [
+          {
+            "name": "叛徒芭芭拉",
+            "priority": "可选",
+            "rewards": ["巨灵之币", "解锁丝克玛试炼"]
+          },
+          {
+            "name": "鸣钟宝箱",
+            "priority": "事件",
+            "rewards": ["金币", "技能宝石"]
+          }
+        ],
+        "exploration_notes": "支线。沿路走到T形路口，带黄纸符方向是芭芭拉（击败解锁丝克玛试炼），另一边是哈拉妮关口。咆哮宝箱清三波怪开启，掉早期黄装。"
+      },
+      {
+        "name_cn": "哈拉尼之门",
+        "name_tw": "哈拉妮關口",
+        "name_en": "Halani's Pass",
+        "level": 20,
+        "entries": [
+          { "name": "崛起之王·贾嫚拉", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "守门战，NPC没跟上就重置。击败贾曼拉开启通往凯斯城的升降梯，注意躲避地面砸击。"
+      },
+      {
+        "name_cn": "长毛象荒原",
+        "name_tw": "乳齒象惡地",
+        "name_en": "Mastodon Badlands",
+        "level": null,
+        "entries": [
+          { "name": "搜寻骨坑入口", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "搜寻骨坑入口。"
+      },
+      {
+        "name_cn": "巨人之谷",
+        "name_tw": "泰坦之谷",
+        "name_en": "Valley of the Titans",
+        "level": 21,
+        "entries": [
+          { "name": "古代封印", "priority": "事件", "rewards": [] },
+          { "name": "遗迹祭坛", "priority": "事件", "rewards": ["角色增益"] }
+        ],
+        "exploration_notes": "开放红沙区，搜寻3个古代封印。在骨坑和凯斯城刷圣物插祭坛，可选30%护符充能或15%药剂回魔。修复巨型奖章永久增加药符栏位并提升药剂充能。找泰坦石窟入口。"
+      },
+      {
+        "name_cn": "克斯",
+        "name_tw": "凱斯城",
+        "name_en": "Keth",
+        "level": 21,
+        "entries": [
+          {
+            "name": "异界·干扰女王·卡巴拉",
+            "priority": "可选",
+            "rewards": ["2天赋点"]
+          }
+        ],
+        "exploration_notes": "必做！两种地形交界处通常有毒坑。在废弃神殿深处击杀蛇女卡巴拉获+2天赋点，并拿走圣物碎片。若先打则掉6级技能石，后打掉7级。建筑区一侧有悼念之路入口。"
+      },
+      {
+        "name_cn": "遗迹深坑",
+        "name_tw": "骨坑",
+        "name_en": "The Bone Pit",
+        "level": 22,
+        "entries": [
+          {
+            "name": "死亡领主·伊克塔",
+            "priority": "可选",
+            "rewards": ["乳齿象象牙"]
+          },
+          {
+            "name": "远古之蹄·埃克巴勃",
+            "priority": "可选",
+            "rewards": ["乳齿象象牙"]
+          },
+          { "name": "太阳部落圣物", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "主线图。进入后沿通道往深处找Boss。"
+      },
+      {
+        "name_cn": "巨人石窟",
+        "name_tw": "泰坦石窟",
+        "name_en": "Titan Caves",
+        "level": null,
+        "entries": [
+          {
+            "name": "巨像·札尔玛拉斯",
+            "priority": "主线",
+            "rewards": ["火焰红宝石", "辅助宝石", "瓦斯提里的战角"]
+          }
+        ],
+        "exploration_notes": "泰坦石窟内部地形狭窄，由许多小平台组成，容易在战斗中被敌人包围，需要时刻留意走位"
+      },
+      {
+        "name_cn": "失落之城",
+        "name_tw": "失落之城",
+        "name_en": "Lost City",
+        "level": 22,
+        "entries": [
+          { "name": "卡巴拉部落圣物", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "无任务无头目地下区域。探索废墟寻找传送点。耀金墓室解密获丰厚金币。找掩埋神殿入口。"
+      },
+      {
+        "name_cn": "掩埋的殿堂",
+        "name_tw": "掩埋神殿",
+        "name_en": "Buried Temple",
+        "level": 23,
+        "entries": [
+          {
+            "name": "遗忘之子·阿萨里恩",
+            "priority": "主线",
+            "rewards": ["水之精髓", "辅助宝石"]
+          },
+          { "name": "元素神殿", "priority": "事件", "rewards": ["抗性戒指"] },
+          { "name": "卡巴拉部落圣物", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "支线奖励。战前可找元素神殿拿抗性戒指。击败Boss后激活祭坛可随机永久提升一项元素抗性上限。"
+      },
+      {
+        "name_cn": "德莎尔",
+        "name_tw": "戴斯哈",
+        "name_en": "Deshar",
+        "level": 28,
+        "entries": [
+          { "name": "战死的部下", "priority": "事件", "rewards": ["2天赋点"] }
+        ],
+        "exploration_notes": "必做天赋！搜索建筑周边找战死部下拿遗书（回城交任务获+2天赋点）。出口在第二个空旷区域最远端。怪物密集度极高（前五），换上高护甲高血量装备补经验。"
+      },
+      {
+        "name_cn": "怀念之阶",
+        "name_tw": "悼念之路",
+        "name_en": "Path of Remembrance",
+        "level": 29,
+        "entries": [{ "name": "前进", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "通过图。路上的花瓶可变换属性，点击后获得对应元素增益或掉落。"
+      },
+      {
+        "name_cn": "德莎尔的高塔",
+        "name_tw": "戴斯哈尖塔",
+        "name_en": "Tower of Deshar",
+        "level": 30,
+        "entries": [
+          { "name": "玷污者托尔·谷尔", "priority": "主线", "rewards": [] },
+          {
+            "name": "卡洛翰的姐妹",
+            "priority": "可选",
+            "rewards": ["+10%闪电抗性"]
+          }
+        ],
+        "exploration_notes": "最终战。塔底与卡洛翰的姊妹石像互动获+10%电抗。塔顶Boss有沙尘暴阶段，贴近盲区战斗。可利用墙壁榴弹反弹定位。"
+      },
+      {
+        "name_cn": "丝克玛试炼",
+        "name_tw": "絲克瑪試煉",
+        "name_en": "Sekhema's Trial",
+        "level": null,
+        "entries": [{ "name": "升华", "priority": "可选", "rewards": [] }],
+        "exploration_notes": "第一个升华方法。"
+      },
+      {
+        "name_cn": "无畏战车",
+        "name_tw": "無畏隊",
+        "name_en": "The Dauntless",
+        "level": null,
+        "entries": [{ "name": "前进", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "移动连接车，无任务无头目。用于升级。"
+      },
+      {
+        "name_cn": "无畏战车先锋",
+        "name_tw": "無畏隊先鋒",
+        "name_en": "Dauntless Vanguard",
+        "level": 32,
+        "entries": [
+          { "name": "憎恶者·贾嫚拉", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "精英挑战图，经验密度极高且掉9级技能石。建议在固定精英点重置补经验至29级再打。Boss需躲避地面砸击，保持移动输出。"
+      }
+    ]
+  },
+  {
+    "chapter": "第三章：远古的诅咒",
+    "chapter_strategy": "目标时间≈70分钟。本章深入丛林与神庙，寻找解除诅咒的方法。核心路线：风沙沼泽 → 丛林遗迹 → 剧毒墓穴 → 感染荒地 → 阿札克泥沼/龙蜥湿地 → 机械迷城 → 吉卡尼圣域 → 玛特兰水道 → 淹没之城 → 熔岩宝库 → 污垢顶峰 → 科佩克神殿 → 奥札尔 → 阿戈拉 → 漆黑密室。重点：完成神威银拳（天赋）、遗忘的黑颚（火抗）、沼泽女巫（精魂）、冶炼师范（重铸台）和牺牲之心（天赋）。",
+    "chapter_boss": "多里亚尼（漆黑密室）。打法：Boss擅长雷电爆发和闪送攻击。进房立刻输出，在Boss走机制前尽可能打晕。最危险的一招是顺时针旋转的AOE激光——玩家在Boss背面顺时针绕圈走即可全程无伤，边走边打。击败后乘船前往第四章。",
+    "areas": [
+      {
+        "name_cn": "飞沙沼泽",
+        "name_tw": "風沙沼澤",
+        "name_en": "Windblown Bog",
+        "level": 31,
+        "entries": [
+          { "name": "根淤", "priority": "可选", "rewards": ["9级技能宝石"] },
+          { "name": "吊树", "priority": "事件", "rewards": ["魔法戒指"] },
+          {
+            "name": "欧洛克营火",
+            "priority": "事件",
+            "rewards": ["低阶工匠石"]
+          }
+        ],
+        "exploration_notes": "第三章第一个城镇。沿地图边缘找营火区域（低阶工匠石开3孔）。去中间击杀根淤。朝入口对角线方向去下一步营地。"
+      },
+      {
+        "name_cn": "金字塔营地",
+        "name_tw": "高地神塔營地",
+        "name_en": "High Temple Camp",
+        "level": null,
+        "entries": [{ "name": "主城", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "第三章第二个城镇。"
+      },
+      {
+        "name_cn": "蛇毒地窟",
+        "name_tw": "劇毒墓穴",
+        "name_en": "Toxic Crypt",
+        "level": 32,
+        "entries": [
+          {
+            "name": "滑行死者",
+            "priority": "可选",
+            "rewards": [
+              "增加25%晕眩门槛",
+              "增加30%元素异常门槛",
+              "增加25%魔力回复率"
+            ]
+          }
+        ],
+        "exploration_notes": "入口在丛林遗迹旁。选定后不可更改永久药剂效果，慎重。一般沿对角方向找毒液。"
+      },
+      {
+        "name_cn": "丛林废墟",
+        "name_tw": "叢林遺跡",
+        "name_en": "Jungle Ruins",
+        "level": 31,
+        "entries": [
+          { "name": "神威银拳", "priority": "可选", "rewards": ["2天赋点"] },
+          { "name": "丛林墓园", "priority": "事件", "rewards": ["稀有腰带"] },
+          { "name": "动乱营地", "priority": "事件", "rewards": [] },
+          { "name": "剧毒墓穴", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "贴边开图，进入感染荒地入口后神威银拳在附近。贴脸打，变红举棒时翻滚到身后。击杀获+2天赋点。"
+      },
+      {
+        "name_cn": "滋孽荒原",
+        "name_tw": "感染荒地",
+        "name_en": "Infected Wastes",
+        "level": 33,
+        "entries": [{ "name": "动乱营地", "priority": "事件", "rewards": [] }],
+        "exploration_notes": "贴边走优先找传送点。顺带找阿札克泥沼（精魂奖励）和龙蜥湿地入口。"
+      },
+      {
+        "name_cn": "阿扎卡泥沼",
+        "name_tw": "阿札克泥沼",
+        "name_en": "Azaca Swamp",
+        "level": 33,
+        "entries": [
+          {
+            "name": "沼泽女巫·尹娜杜克",
+            "priority": "可选",
+            "rewards": ["+30精魂", "精魂宝石 等级10"]
+          },
+          {
+            "name": "部落复仇",
+            "priority": "可选",
+            "rewards": ["魔法品质护符"]
+          },
+          { "name": "火肤仪式", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "在地图深处击杀沼泽女巫，永久+30精魂上限，对光环玩法提升巨大。"
+      },
+      {
+        "name_cn": "幻缈湿地",
+        "name_tw": "龍蜥濕地",
+        "name_en": "Saurian Swamp",
+        "level": 34,
+        "entries": [
+          { "name": "龙蜥·钦路锡安", "priority": "主线", "rewards": [] },
+          { "name": "残摧营地", "priority": "事件", "rewards": [] },
+          { "name": "剧毒之花", "priority": "事件", "rewards": ["魔法护符"] }
+        ],
+        "exploration_notes": "龙蜥Boss掉落独特龙皮素材。怪物密集度高，适合升到31级并换九级技能石。混沌神殿是升华入口，剧情期间不建议深入。找机械迷城入口。"
+      },
+      {
+        "name_cn": "马特兰水道",
+        "name_tw": "瑪特蘭水道",
+        "name_en": "Matlan Waterways",
+        "level": 37,
+        "entries": [
+          { "name": "纳瑞格的小屋", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "注意沼泽减速。开闸门前先清怪，换高火抗。激活3个水泵压杆降低水位。将音量调大听任务物品掉落音效辨位。完成后回城与艾瓦对话开启淹没之城。"
+      },
+      {
+        "name_cn": "佳华尼的机械迷城",
+        "name_tw": "吉卡尼的機械迷城",
+        "name_en": "Jikani's Machinarium",
+        "level": 34,
+        "entries": [
+          {
+            "name": "遗忘的黑颚",
+            "priority": "可选",
+            "rewards": ["+10%火焰抗性"]
+          }
+        ],
+        "exploration_notes": "先在大门外找任务道具开门。继续找道具开下一张图的门，但勿急进。在这张图找到并击杀遗忘的黑颚（+10%火抗）再进圣域。"
+      },
+      {
+        "name_cn": "佳华尼的密殿",
+        "name_tw": "吉卡尼的聖域",
+        "name_en": "Jikani's Sanctuary",
+        "level": 36,
+        "entries": [
+          { "name": "核心守卫·兹科亚特", "priority": "主线", "rewards": [] },
+          { "name": "帕科特的机关", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "安装中型灵魂核心，激活发电机，击败核心守卫获取大型核心。完成后返回感染荒地。"
+      },
+      {
+        "name_cn": "乌扎尔",
+        "name_tw": "奧札爾",
+        "name_en": "Ozaal",
+        "level": 34,
+        "entries": [
+          { "name": "邪魔毒蛇·纳普阿兹", "priority": "主线", "rewards": [] },
+          {
+            "name": "混沌雕像",
+            "priority": "事件",
+            "rewards": ["最后通牒雕刻"]
+          },
+          { "name": "古怪的财宝", "priority": "事件", "rewards": [] }
+        ],
+        "exploration_notes": "跟着主干道走远离入口方向遇毒蛇Boss。捡起牺牲之心，换上冰抗护符防冻。可跳过直接交任务。"
+      },
+      {
+        "name_cn": "阿戈拉特",
+        "name_tw": "阿戈拉",
+        "name_en": "Aggorat",
+        "level": 34,
+        "entries": [
+          { "name": "古怪的财宝", "priority": "事件", "rewards": [] },
+          { "name": "未受损的核心", "priority": "事件", "rewards": [] },
+          { "name": "献祭讲台", "priority": "可选", "rewards": ["2天赋点"] }
+        ],
+        "exploration_notes": "听声靠近中央讲台。先找讲台和记录点，再探索后半部找献祭讲台和漆黑密室入口。放牺牲之心完成血仪获+2天赋点。"
+      },
+      {
+        "name_cn": "暗胧殿堂",
+        "name_tw": "漆黑密室",
+        "name_en": "Pitch-Black Chamber",
+        "level": 45,
+        "entries": [
+          { "name": "皇家奇术师·多里亚尼", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "第三章最终Boss。Boss房与入口中轴线对齐。进房立刻输出争取打晕，最危险的是顺时针旋转AOE激光，在Boss背面顺时针绕圈走可全程无伤。"
+      },
+      {
+        "name_cn": "淹没之城",
+        "name_tw": "淹沒之城",
+        "name_en": "Sunken City",
+        "level": 38,
+        "entries": [
+          { "name": "熔岩宝库", "priority": "主线", "rewards": [] },
+          { "name": "污垢顶峰入口", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "跟随石板路远离入口方向找污垢顶峰或熔岩宝库入口。先找熔岩宝库激活传送点。记录点前大波魔法怪经验极多，可升33换装备后不再打小怪。"
+      },
+      {
+        "name_cn": "科佩克之殿",
+        "name_tw": "科佩克神殿",
+        "name_en": "Temple of Kopec",
+        "level": 40,
+        "entries": [
+          { "name": "艳阳神圣主教·凯亚祖利", "priority": "主线", "rewards": [] }
+        ],
+        "exploration_notes": "阳光灼伤机制，在柱子阴影或毯子上移动。二层随机方向走，裂缝对面即Boss房，有跳跃技能可跳过裂缝。Boss战利用阴影输出。"
+      },
+      {
+        "name_cn": "污秽巅峰",
+        "name_tw": "污垢頂峰",
+        "name_en": "Filth's Apex",
+        "level": 39,
+        "entries": [
+          { "name": "污垢女王", "priority": "主线", "rewards": [] },
+          { "name": "冒泡的庇护所", "priority": "事件", "rewards": [] },
+          {
+            "name": "锅炉守护者",
+            "priority": "可选",
+            "rewards": ["品质生命药剂", "品质魔力药剂"]
+          }
+        ],
+        "exploration_notes": "高危险Boss战。女王召唤粘液怪，翻滚技能秒杀。一阶段贴脸打减少技能，翻滚时立即盾牌格挡。击杀获神殿神像，回高塔营地开门。"
+      },
+      {
+        "name_cn": "熔火宝库",
+        "name_tw": "熔岩寶庫",
+        "name_en": "Magma Vault",
+        "level": 38,
+        "entries": [
+          {
+            "name": "冶炼师范·梅克图",
+            "priority": "可选",
+            "rewards": ["10级技能宝石"]
+          }
+        ],
+        "exploration_notes": "首次通关解锁重铸台（洗装备属性关键）。击杀冶炼师范。"
+      },
+      {
+        "name_cn": "混沌大殿",
+        "name_tw": "混沌神殿",
+        "name_en": "Temple of Chaos",
+        "level": null,
+        "entries": [{ "name": "升华", "priority": "可选", "rewards": [] }],
+        "exploration_notes": "第二个升华方法。"
+      }
+    ]
+  },
+  {
+    "chapter": "第四章：亡者之航",
+    "chapter_strategy": "本章舞台在海上与部族群岛，非线性结构，可任意顺序完成多数岛屿。推荐路线：凯吉湾 → 瓦卡帕努岛 → 伯劳鸟岛 → 废弃监狱 → 金氏岛 → 火山迷窟 → 悉妮蔻拉之眼 → 亡者之殿 → 阿拉塔斯 → 挖掘 → 尼加卡努 → 部族之心。重点：悉妮蔻拉之眼（+5%最大魔力）、亡者之殿（纹身+天赋）、正义女神（提升药剂生命/魔力回复量）。此外务必集齐4张“撕碎地图碎片”（分别位于凯吉湾、瓦卡帕努岛、伯劳鸟岛、金氏岛）以完成亡者之箱任务。",
+    "chapter_boss": "图克哈玛酋长．塔瓦凯（部族之心）。塔瓦凯有3个阶段且AOE极强，需严格控制血瓶使用。及时清理小怪补药剂。核心技巧：Boss下冰柱时按住盾牌格挡可无伤，哪怕没血瓶也能苟住。若同时死亡（同归于尽），不要急着复活，等待对话结束出现成绩提示再复活。击杀后第四章主线全部完成。",
+    "areas": [
+      {
+        "name_cn": "君锋镇",
+        "name_tw": "金司馬區",
+        "name_en": "Kingsmarch",
+        "level": null,
+        "entries": [{ "name": "主城", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "第四章核心城镇。安洁提供非同步交易与藏身处功能；1. 凯吉湾：获得碎片；2. 瓦卡帕努岛 ：碎片；3. 金式岛：碎片；4. 伯劳鸟之岛：碎片；5. 阿拉塔斯：触发最终boss战。6.尼加卡努:本章终点;"
+      },
+      {
+        "name_cn": "废弃监牢",
+        "name_tw": "廢棄監獄",
+        "name_en": "Abandoned Prison",
+        "level": 46,
+        "entries": [
+          {
+            "name": "教堂",
+            "priority": "事件",
+            "rewards": ["生命药剂恢复增加30% 或魔力药剂恢复增加30%"]
+          },
+          { "name": "军械库", "priority": "事件", "rewards": ["装备"] }
+        ],
+        "exploration_notes": "刷小怪掉教堂钥匙解锁正义女神房间，永久提升药剂生命/魔力回复量。直走到底进单独禁闭。跳跃技能可跳过有缝隙的门，水泥封死门需手动开。"
+      },
+      {
+        "name_cn": "遗世监禁",
+        "name_tw": "單獨禁閉室",
+        "name_en": "Solitary Confinement",
+        "level": null,
+        "entries": [{ "name": "囚徒", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "水下监禁室。Boss具备独特再生机制，需弩炮配合。打至60%血转阶段，30%-35%血第二转阶段，20%血不等炸弹直接冲点炮塔。"
+      },
+      {
+        "name_cn": "百舌岛",
+        "name_tw": "伯勞鳥之島",
+        "name_en": "Shrike Island",
+        "level": 46,
+        "entries": [
+          { "name": "天空之鞭", "priority": "主线", "rewards": [] },
+          {
+            "name": "尸骸巢穴",
+            "priority": "事件",
+            "rewards": ["撕裂的地图碎片"]
+          }
+        ],
+        "exploration_notes": "找尸骸巢穴获得撕裂的地图碎片。主线Boss天空之鞭会空中俯冲，注意地面红圈。击杀后开启后续航线。"
+      },
+      {
+        "name_cn": "掠夺点",
+        "name_tw": "掠奪者之角",
+        "name_en": "Marauder's Horn",
+        "level": null,
+        "entries": [
+          {
+            "name": "死境探险",
+            "priority": "事件",
+            "rewards": ["经验值与战利品"]
+          }
+        ],
+        "exploration_notes": ""
+      },
+      {
+        "name_cn": "辛格拉之眼",
+        "name_tw": "悉妮蔻拉之眼",
+        "name_en": "Eye of Hinekora",
+        "level": 46,
+        "entries": [
+          {
+            "name": "沉默之厅",
+            "priority": "事件",
+            "rewards": ["增加5%最大魔力"]
+          }
+        ],
+        "exploration_notes": "必做奖励。需先完成火山迷窟解救任务。完成3个解密房间，与巨大绿色眼睛互动永久+5%最大魔力。第一个柱子Boss近战不推荐早期挑战。"
+      },
+      {
+        "name_cn": "亡者之境",
+        "name_tw": "亡者之殿",
+        "name_en": "Halls of the Dead",
+        "level": 47,
+        "entries": [
+          { "name": "阎魔", "priority": "可选", "rewards": ["2天赋点"] },
+          {
+            "name": "塔萨里奥的试炼",
+            "priority": "事件",
+            "rewards": ["+5智慧 或 +5%冰冷抗性"]
+          },
+          {
+            "name": "娜迦玛胡的试炼",
+            "priority": "事件",
+            "rewards": ["+5力量 或 +5%火焰抗性"]
+          },
+          {
+            "name": "塔霍亚的试炼",
+            "priority": "事件",
+            "rewards": ["+5敏捷 或 +5%闪电抗性"]
+          }
+        ],
+        "exploration_notes": "必做！通过所有先祖试炼，击败白之亚玛获+2天赋点。获得永久的属性纹身加成，提升全属性与抗性。沉默之厅可献祭增加5%最大魔力。"
+      },
+      {
+        "name_cn": "亲眷岛",
+        "name_tw": "金氏島",
+        "name_en": "Kin Island",
+        "level": 46,
+        "entries": [
+          { "name": "眼盲巨兽", "priority": "可选", "rewards": ["2天赋点"] },
+          { "name": "兽栏", "priority": "事件", "rewards": ["4级辅助宝石"] },
+          { "name": "化石岩层", "priority": "事件", "rewards": ["低阶工匠石"] },
+          {
+            "name": "被剥皮的水手",
+            "priority": "事件",
+            "rewards": ["撕裂的地图碎片"]
+          },
+          {
+            "name": "魔痕尖塔",
+            "priority": "事件",
+            "rewards": ["亚硫酸盐注入增益"]
+          }
+        ],
+        "exploration_notes": "去地图右侧，右下角找被剥皮的水手获第4张地图碎片。兽栏精英掉技能石+辅助宝石。击杀眼盲巨兽获+2天赋点。找火山迷窟入口。"
+      },
+      {
+        "name_cn": "熔火院落",
+        "name_tw": "火山迷窟",
+        "name_en": "Volcanic Caves",
+        "level": 47,
+        "entries": [
+          { "name": "克鲁托克，金氏族之王", "priority": "主线", "rewards": [] },
+          {
+            "name": "火山之巢",
+            "priority": "事件",
+            "rewards": ["魔法戒指或稀有戒指"]
+          }
+        ],
+        "exploration_notes": "深层火山洞穴。击败克鲁托格（注意连续踩地，可举盾硬扛），之后务必点开牢笼救出马蒂奇（极易忘记），解锁悉妮蔻拉之眼通道。"
+      },
+      {
+        "name_cn": "落锚湾",
+        "name_tw": "凱吉灣",
+        "name_en": "Keel Bay",
+        "level": 46,
+        "entries": [
+          { "name": "废船", "priority": "事件", "rewards": ["低阶工匠石"] },
+          {
+            "name": "死人的宝箱",
+            "priority": "事件",
+            "rewards": ["撕裂的地图碎片"]
+          }
+        ],
+        "exploration_notes": "遍布残骸的海滩，注意海蚀狙击手。找亡者之箱获第1张地图碎片。深入“旅程结束”击败哈特林船长获大量维里西姆通货。回城后消灭恐惧造物完成追猎迷雾获+2天赋点。"
+      },
+      {
+        "name_cn": "旅途终点",
+        "name_tw": "旅程之末",
+        "name_en": "Journey's End",
+        "level": null,
+        "entries": [
+          { "name": "哈特林船长", "priority": "主线", "rewards": [] },
+          {
+            "name": "全惧，恐惧显现",
+            "priority": "主线",
+            "rewards": ["13级技能宝石"]
+          }
+        ],
+        "exploration_notes": "关键剧情区域。击败欧姆弗毕亚获天赋点奖励。"
+      },
+      {
+        "name_cn": "瓦卡帕努岛",
+        "name_tw": "瓦卡帕努島",
+        "name_en": "Wakapanu Island",
+        "level": 46,
+        "entries": [
+          { "name": "巨白", "priority": "可选", "rewards": ["鲨鱼鳍"] },
+          {
+            "name": "蟹壳洞穴",
+            "priority": "事件",
+            "rewards": ["4级辅助宝石"]
+          },
+          {
+            "name": "石化海盗",
+            "priority": "事件",
+            "rewards": ["撕裂的地图碎片"]
+          }
+        ],
+        "exploration_notes": "点击石化海盗获第2张地图碎片。沿外圈进吟谣洞窟，找呼唤之蚌击杀召唤怪获嗡鸣珍珠，击败Boss黛莫拉回城开藏身处。鲨鱼掉任务道具换技能石，螃蟹掉4级辅助石。"
+      },
+      {
+        "name_cn": "冥曲洞窟",
+        "name_tw": "吟謠洞窟",
+        "name_en": "Dirge Cave",
+        "level": null,
+        "entries": [
+          { "name": "死亡之歌，迪亚莫拉", "priority": "主线", "rewards": [] },
+          {
+            "name": "招手的蛤蜊",
+            "priority": "可选",
+            "rewards": ["稀有珍珠护符"]
+          }
+        ],
+        "exploration_notes": "击败黛莫拉。"
+      },
+      {
+        "name_cn": "阿拉斯塔",
+        "name_tw": "阿拉塔斯",
+        "name_en": "Aratas",
+        "level": 48,
+        "entries": [
+          { "name": "托维安，救世主之手", "priority": "主线", "rewards": [] },
+          { "name": "晨钟", "priority": "事件", "rewards": ["3个富豪石"] },
+          { "name": "晚钟", "priority": "事件", "rewards": ["3个崇高石"] }
+        ],
+        "exploration_notes": "路边钟楼点击获3颗崇高石。Boss托维安有减伤护盾，3个台子NPC提供Buff（最右侧防御Buff几乎不掉血），引诱Boss丢石头砸中台子解除Buff再输出。找挖掘入口。"
+      },
+      {
+        "name_cn": "挖掘场",
+        "name_tw": "挖掘",
+        "name_en": "Excavation",
+        "level": 50,
+        "entries": [
+          {
+            "name": "乌托邦的第一使者，本笃特斯",
+            "priority": "主线",
+            "rewards": []
+          }
+        ],
+        "exploration_notes": "突围战，怪物多为闪电伤害，电抗不够时冲刺赶路易暴毙。先开记录点、找Boss房位置，返还拿冰霜神殿增伤Buff再挑战。"
+      },
+      {
+        "name_cn": "纳卡努",
+        "name_tw": "尼加卡努",
+        "name_en": "Ngakanu",
+        "level": 51,
+        "entries": [{ "name": "前进", "priority": "主线", "rewards": [] }],
+        "exploration_notes": "通往部族之心的最后通路，怪物密集，最后确认装备状态。沿主路推进。"
+      },
+      {
+        "name_cn": "部族之心",
+        "name_tw": "部族之心",
+        "name_en": "Heart of the Tribe",
+        "level": 53,
+        "entries": [
+          { "name": "酋长，塔瓦凯", "priority": "主线", "rewards": [] },
+          { "name": "聚会所", "priority": "事件", "rewards": ["宝箱战利品"] }
+        ],
+        "exploration_notes": "第四章最终Boss。3阶段AOE极强。及时清小怪补药剂。Boss下冰柱时按住盾牌格挡可无伤。同归于尽时不要急着复活，等待对话结束。"
+      }
+    ]
+  }
+]

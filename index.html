@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <title>流放之路2 · 开荒任务清单</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="top-controls">
+      <label class="toggle-label" for="themeCheckbox">
+        <span>☀️/🌙</span>
+        <input type="checkbox" id="themeCheckbox" />
+        <div class="toggle-switch"></div>
+      </label>
+      <label class="toggle-label" for="floatModeCheckbox">
+        <span>📱 浮窗</span>
+        <input type="checkbox" id="floatModeCheckbox" />
+        <div class="toggle-switch"></div>
+      </label>
+      <button class="settings-btn" id="settingsBtn" title="设置">
+        <span>⚙️</span> 设置
+      </button>
+    </div>
+    <button class="back-to-top-btn" id="backToTopBtn" title="回到顶部">
+      <span>🔝</span>
+    </button>
+    <div class="container">
+      <h1>⚔️ 流放之路2 · 开荒清单</h1>
+      <div class="stats">
+        <div class="progress-area">
+          <span>📜 总进度</span>
+          <progress id="globalProgress" value="0" max="100"></progress>
+          <span id="progressPercent">0%</span>
+        </div>
+        <button class="reset-btn" id="resetAllBtn">
+          <span>🗑️</span> 重置全部任务进度
+        </button>
+      </div>
+      <div id="actContainer"></div>
+      <div class="footer-note">✦ 编辑模式支持拖拽排序 · 中文逗号分隔标签 ✦</div>
+    </div>
+
+    <div id="editModal" class="modal-overlay hidden">
+      <div class="modal">
+        <h3 id="modalTitle">编辑</h3>
+        <div id="modalFields"></div>
+        <div class="modal-actions">
+          <button id="modalCancel">取消</button>
+          <button id="modalSave" class="primary">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="imageViewer" class="image-viewer-overlay hidden">
+      <div class="image-viewer-header">
+        <span id="imageViewerTitle">图片查看</span>
+        <button id="imageViewerClose" class="image-viewer-close">✕</button>
+      </div>
+      <div class="image-viewer-content">
+        <img id="imageViewerImg" src="" alt="地图图片" />
+      </div>
+      <div class="image-viewer-hint">滚轮缩放 · 拖拽移动 · 点击关闭</div>
+    </div>
+
+    <div id="settingsModal" class="modal-overlay hidden">
+      <div class="modal settings-modal">
+        <h3>⚙️ 设置</h3>
+        <div class="settings-content">
+          <div class="settings-section">
+            <h4>📝 游戏日志路径</h4>
+            <div class="settings-description">
+              添加 POE2 客户端日志文件路径以启用自动地图检测
+            </div>
+            <div id="logPathList" class="log-path-list"></div>
+            <div class="settings-actions">
+              <button id="addLogPathBtn" class="secondary">+ 添加路径</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h4>💾 缓存数据管理</h4>
+            <div class="settings-description">
+              导入/导出任务进度缓存数据（JSON格式）
+            </div>
+            <div class="cache-actions-row">
+              <button id="exportCacheBtn" class="secondary">📤 导出缓存</button>
+              <button id="importCacheBtn" class="secondary">📥 导入缓存</button>
+            </div>
+            <div class="cache-reset-row">
+              <button id="resetDataBtn" class="reset-data-btn">
+                🔄 重置地图数据
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="settingsClose">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

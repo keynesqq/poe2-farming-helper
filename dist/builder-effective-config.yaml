@@ -1,0 +1,23 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.parkerwt.poe2mapguide
+productName: POE2 Map Guide
+files:
+  - filter:
+      - main.js
+      - index.html
+      - float.html
+      - app.js
+      - styles.css
+      - data.json
+      - preload.js
+      - icon.png
+      - image/
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  icon: icon.png
+electronVersion: 28.3.3

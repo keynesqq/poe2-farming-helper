@@ -2,9 +2,9 @@
 node_modules/
 
 # Build output
-dist/
+# dist/          # Portable builds tracked in repo
 release/
-*.exe
+# *.exe          # Desktop portable exe tracked
 *.dmg
 *.AppImage
 

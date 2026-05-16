@@ -42,9 +42,14 @@
           <progress id="globalProgress" value="0" max="100"></progress>
           <span id="progressPercent">0%</span>
         </div>
-        <button class="reset-btn" id="resetAllBtn">
-          <span>🗑️</span> 重置全部任务进度
-        </button>
+        <div class="stats-buttons">
+          <button class="check-rewards-btn" id="checkRewardsBtn">
+            <span>🔍</span> 一键清查
+          </button>
+          <button class="reset-btn" id="resetAllBtn">
+            <span>🗑️</span> 重置全部任务进度
+          </button>
+        </div>
       </div>
       <div id="actContainer"></div>
       <div class="footer-note">✦ 编辑模式支持拖拽排序 · 中文逗号分隔标签 ✦</div>
@@ -70,6 +75,21 @@
         <img id="imageViewerImg" src="" alt="地图图片" />
       </div>
       <div class="image-viewer-hint">滚轮缩放 · 拖拽移动 · 点击关闭</div>
+    </div>
+
+    <div id="rewardsModal" class="modal-overlay hidden">
+      <div class="modal rewards-modal">
+        <h3>🔍 一键清查 - 未完成的奖励任务</h3>
+        <div class="rewards-content">
+          <div class="rewards-stats">
+            <span id="rewardsCount">0</span> 个未完成的奖励任务
+          </div>
+          <div id="rewardsList" class="rewards-list"></div>
+        </div>
+        <div class="modal-actions">
+          <button id="rewardsClose">关闭</button>
+        </div>
+      </div>
     </div>
 
     <div id="settingsModal" class="modal-overlay hidden">

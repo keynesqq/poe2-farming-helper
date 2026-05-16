@@ -311,6 +311,34 @@ progress::-moz-progress-bar {
   transform: scale(0.97);
 }
 
+.stats-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.check-rewards-btn {
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  color: var(--btn-text);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.check-rewards-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.check-rewards-btn:active {
+  transform: scale(0.97);
+}
+
 .act-section {
   margin-bottom: 22px;
 }
@@ -839,6 +867,90 @@ body.light-theme .back-to-top-btn:hover {
 }
 .modal-actions button:hover {
   filter: brightness(1.15);
+}
+
+/* 奖励任务弹窗样式 */
+.rewards-modal {
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rewards-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rewards-stats {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #f2cc6d;
+}
+
+.rewards-stats span {
+  font-weight: bold;
+  color: #f7d674;
+}
+
+.rewards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reward-item {
+  background: var(--task-bg);
+  border: 1px solid var(--task-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reward-item:hover {
+  background: var(--task-hover-bg);
+  transform: translateX(4px);
+}
+
+.reward-item-info {
+  flex: 1;
+}
+
+.reward-item-description {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.reward-item-location {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.reward-item-tags {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.reward-tag {
+  background: var(--reward-bg);
+  border: 1px solid var(--reward-border);
+  color: var(--reward-text);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 .modal-actions button.primary {
   background: #c3922b;
@@ -1504,6 +1616,26 @@ body.light-theme .back-to-top-btn:hover {
 
 .back-to-top-btn:active {
   transform: translateY(0);
+}
+
+/* 移动端奖励弹窗样式 */
+@media (max-width: 640px) {
+  .rewards-modal {
+    max-width: 95%;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .reward-item {
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .reward-item-tags {
+    align-self: flex-end;
+  }
 }
 
 .settings-modal {

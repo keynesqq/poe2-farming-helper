@@ -1,4 +1,28 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+release/
+*.exe
+*.dmg
+*.AppImage
+
+# Logs
 *.log
+npm-debug.log*
+
+# OS files
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local

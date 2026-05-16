@@ -9,14 +9,10 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background: #1a1814;
+        background: transparent;
       }
       body.collapsed {
-        background: linear-gradient(
-          135deg,
-          rgba(26, 24, 20, 0.98) 0%,
-          rgba(45, 42, 31, 0.98) 100%
-        );
+        background: transparent;
       }
       .float-window {
         background: linear-gradient(
@@ -97,6 +93,10 @@
       }
       .float-btn.font-control {
         font-size: 11px;
+        font-weight: bold;
+      }
+      .float-btn.opacity-control {
+        font-size: 10px;
         font-weight: bold;
       }
       .float-btn.collapse-btn {
@@ -312,6 +312,13 @@
           >
             🎨
           </button>
+          <button
+            class="float-btn opacity-control"
+            id="opacityBtn"
+            title="背景透明度"
+          >
+            👁️
+          </button>
           <button class="float-btn pin-btn" id="pinBtn" title="置顶">📌</button>
           <button class="float-btn close" id="closeBtn" title="关闭">✕</button>
         </div>
@@ -358,11 +365,25 @@
           ? tasks
           : tasks.filter((t) => !checkedState[t.id]);
 
+        // 获取当前透明度值
+        const currentBgOpacity = opacityPresets[currentOpacityIndex];
+        const currentOpacityValue = currentBgOpacity / 100;
+
         tasksToShow.forEach((task) => {
           const el = document.createElement("div");
           el.className = "float-task-item";
           const isChecked = checkedState[task.id] || false;
           if (isChecked) el.classList.add("completed");
+
+          // 应用当前透明度到任务项背景
+          el.style.background =
+            currentBgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.2 * currentOpacityValue})`;
+          el.style.borderColor =
+            currentBgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.4 * currentOpacityValue})`;
 
           const checkbox = document.createElement("input");
           checkbox.type = "checkbox";
@@ -378,6 +399,12 @@
 
           const label = document.createElement("span");
           label.textContent = task.description;
+
+          // 应用保存的字体颜色
+          const savedFontColor = localStorage.getItem("poe2_float_font_color");
+          if (savedFontColor) {
+            label.style.color = savedFontColor;
+          }
 
           el.appendChild(checkbox);
           el.appendChild(label);
@@ -537,6 +564,20 @@
         const savedFontColor = localStorage.getItem("poe2_float_font_color");
         if (savedFontColor) {
           document.getElementById("floatStrategy").style.color = savedFontColor;
+          // 同时应用到已有的任务项（排除标签）
+          setTimeout(() => {
+            const taskLabels = document.querySelectorAll(
+              ".float-task-item > span",
+            );
+            taskLabels.forEach((span) => {
+              if (
+                !span.classList.contains("float-task-badge") &&
+                !span.classList.contains("float-task-reward")
+              ) {
+                span.style.color = savedFontColor;
+              }
+            });
+          }, 100);
         }
       } catch (e) {}
 
@@ -580,12 +621,145 @@
       document.getElementById("fontColorBtn").addEventListener("click", () => {
         currentColorIndex = (currentColorIndex + 1) % fontColors.length;
         const newColor = fontColors[currentColorIndex];
+
+        // 更新攻略区域字体颜色
         document.getElementById("floatStrategy").style.color = newColor;
+
+        // 更新任务项字体颜色（排除标签）
+        const taskLabels = document.querySelectorAll(".float-task-item > span");
+        taskLabels.forEach((span) => {
+          // 只设置直接子元素的span，排除标签的span
+          if (
+            !span.classList.contains("float-task-badge") &&
+            !span.classList.contains("float-task-reward")
+          ) {
+            span.style.color = newColor;
+          }
+        });
+
         try {
           localStorage.setItem("poe2_float_font_color", newColor);
         } catch (e) {}
       });
       updateFontSize();
+
+      // 背景透明度调节 - 在预设值之间切换
+      const opacityPresets = [0, 20, 40, 60, 100];
+      let currentOpacityIndex = 4; // 默认从100%开始
+      try {
+        const savedOpacity = localStorage.getItem("poe2_float_bg_opacity");
+        if (savedOpacity) {
+          const savedValue = parseInt(savedOpacity, 10);
+          const foundIndex = opacityPresets.indexOf(savedValue);
+          if (foundIndex !== -1) {
+            currentOpacityIndex = foundIndex;
+          }
+        }
+      } catch (e) {}
+
+      function updateBgOpacity() {
+        const bgOpacity = opacityPresets[currentOpacityIndex];
+        const opacityValue = bgOpacity / 100;
+        const floatWindowEl = document.getElementById("floatWindow");
+        // 根据透明度设置背景
+        const baseR = 26,
+          baseG = 24,
+          baseB = 20;
+
+        // 设置主窗口背景
+        floatWindowEl.style.background =
+          bgOpacity === 0
+            ? "transparent"
+            : `linear-gradient(135deg, rgba(${baseR}, ${baseG}, ${baseB}, ${opacityValue}) 0%, rgba(45, 42, 31, ${opacityValue}) 100%)`;
+        floatWindowEl.style.borderColor =
+          bgOpacity === 0 ? "transparent" : `rgba(95, 81, 54, ${opacityValue})`;
+
+        // 更新折叠状态下的header背景
+        const isCollapsed = floatWindowEl.classList.contains("collapsed");
+        const headerEl = floatWindowEl.querySelector(".float-header");
+        if (headerEl) {
+          if (isCollapsed) {
+            headerEl.style.background =
+              bgOpacity === 0
+                ? "transparent"
+                : `linear-gradient(135deg, rgba(${baseR}, ${baseG}, ${baseB}, ${opacityValue}) 0%, rgba(45, 42, 31, ${opacityValue}) 100%)`;
+          } else {
+            // 展开状态下，header使用透明背景（跟随浮窗背景）
+            headerEl.style.background = "transparent";
+          }
+        }
+
+        // body 背景保持透明，不跟随浮窗透明度
+
+        // 更新攻略区域背景
+        const strategyEl = document.getElementById("floatStrategy");
+        if (strategyEl) {
+          strategyEl.style.background =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(0, 0, 0, ${0.2 * opacityValue})`;
+          strategyEl.style.borderLeftColor =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(74, 124, 89, ${opacityValue})`;
+        }
+
+        // 更新任务项背景
+        const taskItems = document.querySelectorAll(".float-task-item");
+        taskItems.forEach((item) => {
+          item.style.background =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.2 * opacityValue})`;
+          item.style.borderColor =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.4 * opacityValue})`;
+        });
+
+        // 更新等级标签背景
+        const levelEl = document.getElementById("floatLevel");
+        if (levelEl) {
+          levelEl.style.background =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.5 * opacityValue})`;
+        }
+
+        // 更新翻页按钮背景
+        const navButtons = document.querySelectorAll(".float-nav button");
+        navButtons.forEach((btn) => {
+          btn.style.background =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.3 * opacityValue})`;
+          btn.style.borderColor =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${opacityValue})`;
+        });
+
+        // 更新任务容器背景
+        const tasksContainer = document.getElementById("floatTasks");
+        if (tasksContainer) {
+          tasksContainer.style.background =
+            bgOpacity === 0
+              ? "transparent"
+              : `rgba(95, 81, 54, ${0.1 * opacityValue})`;
+        }
+
+        try {
+          localStorage.setItem("poe2_float_bg_opacity", bgOpacity.toString());
+        } catch (e) {}
+      }
+
+      document.getElementById("opacityBtn").addEventListener("click", () => {
+        currentOpacityIndex = (currentOpacityIndex + 1) % opacityPresets.length;
+        updateBgOpacity();
+      });
+
+      // 初始化透明度
+      updateBgOpacity();
 
       // 关闭按钮
       document.getElementById("closeBtn").addEventListener("click", () => {

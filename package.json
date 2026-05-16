@@ -33,7 +33,9 @@
       "app.js",
       "styles.css",
       "data.json",
-      "preload.js"
+      "preload.js",
+      "icon.png",
+      "image/"
     ],
     "win": {
       "target": [
@@ -44,7 +46,7 @@
           ]
         }
       ],
-      "icon": "assets/icon.ico"
+      "icon": "icon.png"
     }
   }
 }

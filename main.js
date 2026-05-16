@@ -70,7 +70,7 @@ function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
-    icon: path.join(__dirname, "assets", "icon.ico"),
+    icon: path.join(__dirname, "icon.png"),
     titleBarStyle: "default",
     show: false,
     autoHideMenuBar: true,
@@ -117,7 +117,7 @@ function createFloatWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
-    icon: path.join(__dirname, "assets", "icon.ico"),
+    icon: path.join(__dirname, "icon.png"),
     titleBarStyle: "hidden",
     alwaysOnTop: true,
     skipTaskbar: true,
@@ -125,7 +125,8 @@ function createFloatWindow() {
     x: centerX,
     y: 0,
     fullscreenable: false,
-    backgroundColor: "#1b1915",
+    transparent: true,
+    backgroundColor: "#00000000",
     frame: false,
     focusable: false,
   });
@@ -133,7 +134,26 @@ function createFloatWindow() {
   floatWindow.loadFile("float.html");
 
   floatWindow.once("ready-to-show", () => {
+    // 设置圆角窗口形状 (600x400 圆角 12px)
+    const { width, height } = floatWindow.getBounds();
+    floatWindow.setShape([
+      { x: 0, y: 0, width: 12, height: 12 },
+      { x: 12, y: 0, width: width - 24, height: 12 },
+      { x: width - 12, y: 0, width: 12, height: 12 },
+      { x: 0, y: 12, width: width, height: height - 24 },
+      { x: 0, y: height - 12, width: 12, height: 12 },
+      { x: 12, y: height - 12, width: width - 24, height: 12 },
+      { x: width - 12, y: height - 12, width: 12, height: 12 },
+    ]);
+    // 使用最高级别置顶，防止被录屏软件覆盖
+    floatWindow.setAlwaysOnTop(true, "screen-saver");
     floatWindow.show();
+    // 再次强制置顶（某些录屏软件会在窗口显示后抢占）
+    setTimeout(() => {
+      if (floatWindow && !floatWindow.isDestroyed()) {
+        floatWindow.setAlwaysOnTop(true, "screen-saver");
+      }
+    }, 100);
   });
 
   floatWindow.on("closed", () => {
@@ -278,7 +298,23 @@ ipcMain.on("close-float-window", () => {
 
 ipcMain.on("set-float-always-on-top", (event, flag) => {
   if (floatWindow && !floatWindow.isDestroyed()) {
-    floatWindow.setAlwaysOnTop(flag, "floating");
+    floatWindow.setAlwaysOnTop(flag, "screen-saver");
+  }
+});
+
+// 强制主窗口获取焦点（解决录屏软件抢焦点导致输入框无法使用）
+ipcMain.on("focus-main-window", () => {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore();
+    }
+    mainWindow.focus();
+    mainWindow.setAlwaysOnTop(true, "normal");
+    setTimeout(() => {
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.setAlwaysOnTop(false);
+      }
+    }, 200);
   }
 });
 

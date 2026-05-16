@@ -41,13 +41,13 @@
   const STORAGE_EDIT_KEY = "poe2_edit_mode";
 
   // Transform data.json structure to app structure
-  // Transform poe2actdata.json structure to app structure
   function transformData(rawData) {
     return rawData.map((chapter, chapterIdx) => ({
       act: chapter.chapter,
       bossStrategy: chapter.chapter_strategy || "",
       chapterBoss: chapter.chapter_boss || "",
       images: [],
+      mapUrl: chapter.mapUrl || [],
       maps: (chapter.areas || []).map((area, areaIdx) => {
         // 组合繁体中文 / 简体中文名称
         const mapName = area.name_cn
@@ -79,6 +79,7 @@
           mapStrategy: mapStrategy,
           tasks: tasks,
           images: [],
+          mapUrl: area.mapUrl || [],
           id: `c${chapterIdx + 1}m${areaIdx + 1}`,
         };
       }),
@@ -94,7 +95,8 @@
       } else {
         const response = await fetch("data.json");
         const rawData = await response.json();
-        questData = transformData(rawData);
+        // 新的数据结构：{ poe2BD: [], act: [...] }
+        questData = transformData(rawData.act || rawData);
       }
     } catch (e) {
       console.error("Failed to load data:", e);
@@ -216,14 +218,39 @@
         if (f.placeholder) inp.placeholder = f.placeholder;
         modalFields.appendChild(inp);
       }
+
+      // 为地图名输入框添加提示
+      if (f.id === "mapName") {
+        const hint = document.createElement("div");
+        hint.style.fontSize = "12px";
+        hint.style.color = "#999";
+        hint.style.marginTop = "4px";
+        hint.style.marginBottom = "12px";
+        hint.textContent = "请保持地图名与游戏内地图名一致";
+        modalFields.appendChild(hint);
+      }
     });
 
     modal.classList.remove("hidden");
     modalCallback = callback;
-    setTimeout(() => {
+    // 强制主窗口获取焦点，解决录屏软件抢焦点导致输入框无法使用
+    if (window.electronAPI?.focusMainWindow) {
+      window.electronAPI.focusMainWindow();
+    }
+    // 增强 focus 重试机制：录屏软件可能会反复抢焦点
+    let focusAttempts = 0;
+    const tryFocus = () => {
       const firstInput = modalFields.querySelector("input, textarea, select");
-      if (firstInput) firstInput.focus();
-    }, 100);
+      if (firstInput) {
+        firstInput.focus();
+        // 如果焦点不在当前输入框且未达到最大重试次数，继续尝试
+        if (document.activeElement !== firstInput && focusAttempts < 5) {
+          focusAttempts++;
+          setTimeout(tryFocus, 150);
+        }
+      }
+    };
+    setTimeout(tryFocus, 100);
   }
 
   function hideModal() {
@@ -446,9 +473,8 @@
     });
     console.log("[renderAll] 渲染完成，章节数:", questData?.length);
 
-    if (editMode) {
-      fragment.appendChild(renderAddActButton());
-    }
+    // 总是显示添加章节按钮
+    fragment.appendChild(renderAddActButton());
 
     container.innerHTML = "";
     container.appendChild(fragment);
@@ -515,10 +541,45 @@
       renderAll();
     });
     actTitleSpan.appendChild(actBtn1);
-
     // Chapter Images - 添加到开始编辑后，进度条前
     const actImagesContainer = document.createElement("div");
     actImagesContainer.className = "act-images-container";
+
+    // 总是显示 mapUrl 中的地图图片
+    if (act.mapUrl && act.mapUrl.length > 0) {
+      act.mapUrl.forEach((imgSrc, imgIdx) => {
+        const imgWrapper = document.createElement("div");
+        imgWrapper.className = "act-image-wrapper";
+        const actImg = document.createElement("img");
+        actImg.className = "act-image-thumb";
+        const imgUrl = `image/POE2map/actMap/${imgSrc}`;
+        actImg.src = imgUrl;
+        actImg.alt = `${act.act} - 地图${imgIdx + 1}`;
+        actImg.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showImageViewer(imgUrl, `${act.act} - 地图${imgIdx + 1}`);
+        });
+        imgWrapper.appendChild(actImg);
+        if (editMode || localEditActs.has(actIdx)) {
+          const delImgBtn = document.createElement("button");
+          delImgBtn.className = "image-delete-btn";
+          delImgBtn.textContent = "&#x1F5D1;";
+          delImgBtn.title = "删除图片";
+          delImgBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (confirm("确定要删除这张地图图片吗？")) {
+              act.mapUrl.splice(imgIdx, 1);
+              saveData();
+              renderAll();
+            }
+          });
+          imgWrapper.appendChild(delImgBtn);
+        }
+        actImagesContainer.appendChild(imgWrapper);
+      });
+    }
+
+    // 然后显示原有的 images
     if (act.images && act.images.length > 0) {
       act.images.forEach((imgSrc, imgIdx) => {
         const imgWrapper = document.createElement("div");
@@ -849,9 +910,13 @@
           e.stopPropagation();
           showModal(
             "编辑地图",
-            [{ label: "地图名", id: "mapName", value: map.mapName }],
+            [
+              { label: "地图名", id: "mapName", value: map.mapName },
+              { label: "推荐等级", id: "level", value: map.level || "" },
+            ],
             (vals) => {
               map.mapName = vals.mapName;
+              map.level = vals.level;
               saveData();
               renderAll();
             },
@@ -1056,7 +1121,7 @@
                     ],
                   },
                   {
-                    label: "奖励标签(中文逗号分隔)",
+                    label: "奖励标签(中文逗号)",
                     id: "rewardTags",
                     value: (task.rewardTags || []).join("，"),
                   },
@@ -1245,6 +1310,102 @@
     if (e.key === "Escape" && !modal.classList.contains("hidden")) hideModal();
   });
 
+  // 奖励任务检查功能
+  const rewardsModal = document.getElementById("rewardsModal");
+  const rewardsList = document.getElementById("rewardsList");
+  const rewardsCount = document.getElementById("rewardsCount");
+
+  document.getElementById("checkRewardsBtn").addEventListener("click", () => {
+    showRewardsModal();
+  });
+
+  document.getElementById("rewardsClose").addEventListener("click", () => {
+    rewardsModal.classList.add("hidden");
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === rewardsModal) {
+      rewardsModal.classList.add("hidden");
+    }
+  });
+
+  function showRewardsModal() {
+    const rewardTasks = [];
+
+    // 收集所有未完成的奖励任务
+    questData.forEach((chapter, chapterIdx) => {
+      chapter.maps.forEach((map, mapIdx) => {
+        map.tasks.forEach((task, taskIdx) => {
+          // 检查是否有奖励标签且未完成
+          if (
+            !checkedState[task.id] &&
+            task.rewardTags &&
+            task.rewardTags.length > 0
+          ) {
+            rewardTasks.push({
+              id: task.id,
+              description: task.description,
+              location: `${chapter.act} - ${map.mapName}`,
+              chapterIdx: chapterIdx,
+              mapIdx: mapIdx,
+              rewards: task.rewardTags,
+            });
+          }
+        });
+      });
+    });
+
+    // 显示统计信息
+    rewardsCount.textContent = rewardTasks.length;
+
+    // 清空并重新填充列表
+    rewardsList.innerHTML = "";
+
+    if (rewardTasks.length === 0) {
+      rewardsList.innerHTML =
+        '<div style="text-align: center; color: var(--text-secondary); padding: 20px;">🎉 所有奖励任务都已完成！</div>';
+    } else {
+      rewardTasks.forEach((task) => {
+        const taskElement = document.createElement("div");
+        taskElement.className = "reward-item";
+        taskElement.addEventListener("click", () => {
+          // 跳转到对应地图
+          scrollToMap(task.location.split(" - ")[1]);
+          rewardsModal.classList.add("hidden");
+        });
+
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "reward-item-info";
+
+        const descDiv = document.createElement("div");
+        descDiv.className = "reward-item-description";
+        descDiv.textContent = task.description;
+
+        const locDiv = document.createElement("div");
+        locDiv.className = "reward-item-location";
+        locDiv.textContent = `📍 ${task.location}`;
+
+        infoDiv.appendChild(descDiv);
+        infoDiv.appendChild(locDiv);
+
+        const tagsDiv = document.createElement("div");
+        tagsDiv.className = "reward-item-tags";
+        task.rewards.forEach((reward) => {
+          const tagSpan = document.createElement("span");
+          tagSpan.className = "reward-tag";
+          tagSpan.textContent = reward;
+          tagsDiv.appendChild(tagSpan);
+        });
+
+        taskElement.appendChild(infoDiv);
+        taskElement.appendChild(tagsDiv);
+        rewardsList.appendChild(taskElement);
+      });
+    }
+
+    rewardsModal.classList.remove("hidden");
+  }
+
   // Image Viewer Event Listeners
   document
     .getElementById("imageViewerClose")
@@ -1282,7 +1443,8 @@
         localStorage.removeItem(STORAGE_DATA_KEY);
         const response = await fetch("data.json");
         const rawData = await response.json();
-        questData = transformData(rawData);
+        // 新的数据结构：{ poe2BD: [], act: [...] }
+        questData = transformData(rawData.act || rawData);
         checkedState = {};
         localStorage.removeItem(STORAGE_CHECK_KEY);
         collapsedActs.clear();
@@ -1762,6 +1924,26 @@
     setTimeout(() => toast.remove(), 2000);
   }
 
+  // ===================== 图片地址检测与处理 =====================
+  function hasAnyImages(data) {
+    if (!data || !Array.isArray(data)) return false;
+    return data.some((act) => {
+      if (act.images && act.images.length > 0) return true;
+      if (act.maps && act.maps.some((m) => m.images && m.images.length > 0))
+        return true;
+      return false;
+    });
+  }
+
+  function stripAllImages(data) {
+    if (!data || !Array.isArray(data)) return data;
+    return data.map((act) => ({
+      ...act,
+      images: [],
+      maps: (act.maps || []).map((m) => ({ ...m, images: [] })),
+    }));
+  }
+
   // ===================== 缓存数据导入导出功能 =====================
   const exportCacheBtn = document.getElementById("exportCacheBtn");
   const importCacheBtn = document.getElementById("importCacheBtn");
@@ -1788,12 +1970,25 @@
         editMode: editMode,
       };
 
+      // 检测是否有图片地址
+      if (hasAnyImages(questData)) {
+        if (
+          !confirm(
+            "检测到数据中包含图片地址，是否一并导出？\n\n注：图片地址为本地文件路径，导入到其他设备可能无法使用。",
+          )
+        ) {
+          cacheData.questData = stripAllImages(questData);
+          cacheData.includesImages = false;
+        } else {
+          cacheData.includesImages = true;
+        }
+      } else {
+        cacheData.includesImages = false;
+      }
+
       console.log("[缓存导出] 导出数据:", JSON.stringify(cacheData, null, 2));
       console.log("[缓存导出] questData 地图数:", questData.length);
-      console.log(
-        "[缓存导出] checkedState 键数:",
-        Object.keys(checkedState).length,
-      );
+      console.log("[缓存导出] 是否包含图片:", cacheData.includesImages);
 
       const result = await window.electronAPI.exportCache(cacheData);
       if (result.success) {
@@ -1823,9 +2018,20 @@
       if (result.success) {
         const data = result.data;
 
+        // 检测导入数据是否包含图片地址
+        let importImages = true;
+        if (data.questData && hasAnyImages(data.questData)) {
+          importImages = confirm(
+            "检测到导入数据中包含图片地址，是否一并导入？\n\n" +
+              "注：图片地址为本地文件路径，若当前设备无对应文件将无法显示。",
+          );
+        }
+
         // 恢复 questData（任务数据）
         if (data.questData && Array.isArray(data.questData)) {
-          questData = data.questData;
+          questData = importImages
+            ? data.questData
+            : stripAllImages(data.questData);
           // 保存到 localStorage
           try {
             localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(questData));
@@ -1833,6 +2039,7 @@
             console.error("保存任务数据失败:", e);
           }
           console.log("[缓存导入] 恢复 questData，章节数:", questData.length);
+          console.log("[缓存导入] 是否导入图片:", importImages);
         }
 
         // 恢复 checkedState

@@ -38,6 +38,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   // 浮窗高度调整
   setFloatHeight: (height) => ipcRenderer.send("set-float-height", height),
 
+  // 主窗口焦点强制获取（解决录屏时输入框无法使用）
+  focusMainWindow: () => ipcRenderer.send("focus-main-window"),
+
   // 任务状态同步（浮窗 -> 主窗口）
   syncTaskCheck: (taskId, checked) =>
     ipcRenderer.send("sync-task-check", { taskId, checked }),
